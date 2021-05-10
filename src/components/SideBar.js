@@ -7,8 +7,11 @@ import Hidden from "@material-ui/core/Hidden"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
-
 import { makeStyles, useTheme } from "@material-ui/core/styles"
+
+// use connect to connect components to redux
+import { connect } from "react-redux"
+import { IDS_DEV_PAGE_ACTION, IDS_PROD_PAGE_ACTION, IDS_SYSTEST_PAGE_ACTION } from "../state/actions/pageDetailsActions"
 
 const drawerWidth = 240
 
@@ -45,43 +48,15 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "IDS_PROD":
-      return {
-        idsProd: console.log("IDS_PROD"),
-      }
-    case "IDS_SYSTEST":
-      return {
-        idsProd: console.log("IDS_SYSTEST"),
-      }
-    case "IDS_DEV":
-      return {
-        idsProd: console.log("IDS_DEV"),
-      }
-    default:
-      return state
-  }
-}
 
 function ResponsiveDrawer(props) {
+  const { dispatch } = props;
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
   }
-
-//Idk here, i was going down a train of thought to maybe refactor this and send things to state. 
-
-const [ state, dispatch ] = useReducer(reducer)
-const [idsProd, setIdsProd ] = useState()
-const [idsSysTest, setIdsSystest ] = useState()
-const [idsDev, setIdsDev ] = useState()
-
-
-
-
 
   const drawer = (
     <div elevation={8}>
@@ -93,13 +68,13 @@ const [idsDev, setIdsDev ] = useState()
               <ListItemText>IDS</ListItemText>
             </ListItem>
             <Divider />
-            <ListItem button id="ids_prod" onClick={() => dispatch({ type: "IDS_PROD"})}>
+            <ListItem button id="ids_prod" onClick={() => this.props.IDS_DEV_PAGE_ACTION(pageDetails)}> 
               <ListItemText>PROD</ListItemText>
             </ListItem>
-            <ListItem button id="ids_systest" onClick={() => dispatch({ type: "IDS_SYSTEST"})}>
+            <ListItem button id="ids_systest" onClick={() => dispatch(IDS_SYSTEST_PAGE_ACTION())}>
               <ListItemText>Systest</ListItemText>
             </ListItem>
-            <ListItem button id="ids_dev" onClick={() => dispatch({ type: "IDS_DEV"})}>
+            <ListItem button id="ids_dev" onClick={() => dispatch(IDS_DEV_PAGE_ACTION())}>
               <ListItemText>Dev</ListItemText>
             </ListItem>
           </List>
@@ -183,6 +158,26 @@ const [idsDev, setIdsDev ] = useState()
   )
 }
 
+
+const mapStateToProps = (state) => {
+  return {
+    name: state.name, 
+    climate: state.climate,
+    population: state.population,
+    terrain: state.terrain
+  }
+}
+
+// use dispatch to call actions
+const mapDispatchToProps = dispatch => {
+  return {
+     IDS_DEV_PAGE_ACTION: () => dispatch(IDS_DEV_PAGE_ACTION()),
+     IDS_PROD_PAGE_ACTION: () => dispatch(IDS_PROD_PAGE_ACTION()),
+     IDS_SYSTEST_PAGE_ACTION: () => dispatch(IDS_SYSTEST_PAGE_ACTION()),
+     
+   }
+}
+
 ResponsiveDrawer.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
@@ -191,4 +186,6 @@ ResponsiveDrawer.propTypes = {
   window: PropTypes.func,
 }
 
-export default ResponsiveDrawer
+const ConnectedResponsiveDrawer = connect(mapStateToProps, mapDispatchToProps)(ResponsiveDrawer)
+
+export default ConnectedResponsiveDrawer

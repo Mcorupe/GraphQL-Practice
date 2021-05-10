@@ -4,19 +4,34 @@
 //this is like that, some smart ass did a redux thing in one line and idk its magic or something.
 
 
-import { createStore as reduxCreateStore } from " redux"
+import { createStore as reduxCreateStore } from "redux"
 
+const orgState = { planet: { name: "", climate: "", population: "", terrain: "" } }
 
-const reducer = (state, action) => {
-    if (actoin.type === `INCREMENT`) {
-        return Object.assign({}, state, {
-            count: state.count +1,
-        })
+function reducer(state = orgState, action) {
+    switch (action.type) {
+        case "IDS_PROD":
+            return {
+                ...state,
+                planet: { ...state.planet, name: "PROD", climate: "STRESSFUL", population: "DEAD", terrain: "UNSTABLE" },
+                page: "IDS_PROD",
+            }
+        case "IDS_SYSTEST":
+            return {
+                ...state,
+                planet: { ...state.planet, name: "INT", climate: "LIVEABLE", population: "DYING", terrain: "COLLAPSING" },
+                page: "IDS_SYSTEST",
+            }
+        case "IDS_DEV":
+            return {
+                ...state,
+                planet: { ...state.planet, name: "DEV", climate: "PEACEFUL", population: "ALIVE", terrain: "STABLE" },
+                page: "IDS_DEV",
+            }
+        default:
+            return state
     }
-    return state
 }
 
-const initialState = { count: 0 }
-
-const createStore = () => reduxCreateStore(reducer, initialState)
+const createStore = () => reduxCreateStore(reducer, orgState)
 export default createStore

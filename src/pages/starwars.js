@@ -8,11 +8,13 @@ import SideBar from "../components/SideBar"
 import PageDetails from "../components/PageDetails"
 
 import { usePageDetails } from "../components/PageDetailsHooks"
-import { usePageDetails2 } from "../components/PageDetailsHooks2"
 
-const StarWars = props => {
+import { connect } from "react-redux"
+
+const StarWars = (props) => {
+  const { name, climate, population, terrain } = props;
   return (
-        <Layout>
+    <Layout>
       <SEO title="datastreams" />
       <Grid container>
         <div>
@@ -21,16 +23,10 @@ const StarWars = props => {
         <div>
           <h1>STARWARS</h1>
           <PageDetails
-            name={usePageDetails().name}
-            climate={usePageDetails().climate}
-            population={usePageDetails().population}
-            terrain={usePageDetails().terrain}
-          />
-          <PageDetails
-            name={usePageDetails2().name}
-            climate={usePageDetails2().climate}
-            population={usePageDetails2().population}
-            terrain={usePageDetails2().terrain}
+            name={name}
+            climate={climate}
+            population={population}
+            terrain={terrain}
           />
         </div>
       </Grid>
@@ -38,4 +34,18 @@ const StarWars = props => {
   )
 }
 
-export default StarWars
+const mapStateToProps = (state) => {
+  return {
+    name: state.name, 
+    climate: state.climate,
+    population: state.population,
+    terrain: state.terrain
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return { dispatch }
+}
+
+const ConnectedStarWars = connect(mapStateToProps, mapDispatchToProps)(StarWars)
+
+export default ConnectedStarWars
