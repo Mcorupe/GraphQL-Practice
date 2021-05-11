@@ -10,9 +10,10 @@ import PageDetails from "../components/PageDetails"
 import { usePageDetails } from "../components/PageDetailsHooks"
 
 import { connect } from "react-redux"
+import { IDS_DEV_PAGE_ACTION } from "../state/actions/pageDetailsActions"
 
-const StarWars = (props) => {
-  const { name, climate, population, terrain } = props;
+const StarWars = props => {
+  const { name, climate, population, terrain } = props
   return (
     <Layout>
       <SEO title="datastreams" />
@@ -34,16 +35,20 @@ const StarWars = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    name: state.name, 
+    name: state.name,
     climate: state.climate,
     population: state.population,
-    terrain: state.terrain
+    terrain: state.terrain,
   }
 }
 const mapDispatchToProps = dispatch => {
-  return { dispatch }
+  return {
+    IDS_DEV_PAGE_ACTION: () => dispatch(IDS_DEV_PAGE_ACTION()),
+    IDS_DEV_PAGE_ACTION: () => dispatch(IDS_DEV_PAGE_ACTION()),
+    IDS_DEV_PAGE_ACTION: () => dispatch(IDS_DEV_PAGE_ACTION()),
+  }
 }
 
 const ConnectedStarWars = connect(mapStateToProps, mapDispatchToProps)(StarWars)

@@ -24,11 +24,11 @@ const PageDetails = props => {
     )
 }
 
-// const mapStateToProps = (state) => {
-//     return {
-//         name: state.name
-//     }
-// }
+const mapStateToProps = (state) => {
+    return {
+        name: state.name
+    }
+}
 
 PageDetails.propTypes = {
     name: PropTypes.string.isRequired,
