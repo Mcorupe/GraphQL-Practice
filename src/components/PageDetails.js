@@ -37,4 +37,4 @@ PageDetails.propTypes = {
     terrain: PropTypes.string.isRequired,
 }
 
-export default PageDetails;
+export default connect(mapStateToProps)(PageDetails);
